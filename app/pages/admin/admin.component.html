@@ -1,0 +1,113 @@
+<div class="container-fluid">
+    <header class="jumbotron text-center">
+        <h5>|Admin Dashboard|</h5>
+    </header>
+    <!-- start add the food forms -->
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title" *ngIf="!isView">Add The New Food Items</h4>
+          <h4 class="modal-title" *ngIf="isView">Update The New Food Items</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+  
+        <!-- Modal body within this modal I add this form-->
+         <form [formGroup]="foodForm">
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Food Name</label>
+                <input class="form-control" type="text" formControlName="food" [class.is-invalid]="(foodForm.get('food').invalid && foodForm.get('food').touched) || foodForm.get('food').submitted" [class.is-valid]="foodForm.get('food').valid"/>
+                <!-- displays the error -->
+                 <section *ngIf="(foodForm.get('food').invalid && foodForm.get('food').touched) || foodForm.get('food').dirty">
+                    <small class="text-danger" *ngIf="foodForm.get('food').hasError('required')"> <strong>Food Name is required</strong></small>
+                    <small class="text-danger" *ngIf="foodForm.get('food').hasError('pattern')"> <strong>Food Name must be 3 to 30 characters long</strong></small>
+                 </section>
+            </div>
+            <div class="form-group">
+                <label>Food Description</label>
+                <textarea rows="5" cols="5" class="form-control" formControlName="description" [class.is-invalid]="(foodForm.get('description').invalid && foodForm.get('description').touched)|| foodForm.get('description').submitted" [class.is-valid]="foodForm.get('description').valid"></textarea>
+                <!-- to display the errors -->
+                 <section *ngIf="(foodForm.get('description').invalid && foodForm.get('description').touched) || foodForm.get('description').dirty">
+                  <small class="text-danger" *ngIf="(foodForm.get('description').hasError('required'))"><strong>Food Description is required</strong></small>
+                  <small class="text-danger" *ngIf="(foodForm.get('description').hasError('pattern'))"><strong>Food Description must be 3 to 300 Characters long..</strong></small>
+                 </section> 
+            </div>
+            <div class="form-group">
+                <label>Food Price</label>
+                <input type="number" class="form-control"  formControlName="price" [class.is-invalid]="(foodForm.get('price').touched && foodForm.get('price').invalid) || foodForm.get('price').submitted" [class.is-valid]="foodForm.get('price').valid"/>
+                <!-- displays the errors -->
+                 <section *ngIf="(foodForm.get('price').touched && foodForm.get('price').invalid) || foodForm.get('price').dirty">
+                    <small class="text-danger" *ngIf="foodForm.get('price').hasError('required')"><strong>Food Price is required</strong></small>
+                    <small class="text-danger" *ngIf="foodForm.get('price').hasError('pattern')"><strong>Food price must be 3 digits..</strong></small>
+                 </section>
+            </div>
+            <div class="form-group">
+                <label>Food Image</label>
+                <input type="file" class="form-control" (change)="setFile($event)"/>
+            </div>
+            <div class="form-group">
+              <label>Food Stock</label>
+              <input type="number" class="form-control" formControlName="stock" [class.is-invalid]="(foodForm.get('stock').invalid && foodForm.get('stock').touched) || foodForm.get('price').submitted" [class.is-valid]="foodForm.get('stock').valid"/>
+              <!-- displays the errors -->
+               <section *ngIf="(foodForm.get('stock').invalid && foodForm.get('stock').touched) || foodForm.get('stock').dirty">
+                  <small class="text-danger" *ngIf="foodForm.get('stock').hasError('required')"><strong>Food stock is required</strong></small>
+                  <small class="text-danger" *ngIf="foodForm.get('stock').hasError('pattern')"><strong>Food stock must be in 2 digits..</strong></small>
+               </section>
+          </div>
+        </div>
+      </form>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-dismiss="modal" (click)="addNew()" *ngIf="!isView" [disabled]="foodForm.invalid">Save</button>
+            <button type="button" class="btn btn-success" data-dismiss="modal" *ngIf="isView" (click)="update()" [disabled]="foodForm.invalid">Update</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+
+    <!-- end the food forms -->
+    <div class="container-fluid">
+        <section class="float-right">
+            <span class="badge badge-danger badge-pills">{{adminInfo.activeUser}}</span>
+            <span class="badge badge-pills badge-danger">
+              <button class="btn btn-warning btn-sm" (click)="logout()">LogOut</button>
+            </span>
+            <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#myModal" (click)="view()">Add Items</button>
+        </section>
+        <h6>Operations...</h6>
+        <p>Admin can add, update and delete the food items..</p>            
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Food Name</th>
+              <th>Food Description</th>
+              <th>Food Price</th>
+              <th>Food Stock</th>
+              <th>Food Image</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let f of foodLists">
+              <td>{{f.food}}</td>
+              <td>{{f.description | slice: 0:100}}</td>
+              <td><span class="badge badge-pills badge-danger">{{f.price | currency:'INR'}}</span></td>
+              <td>{{f.stock}}</td>
+              <td>
+                <img src="{{f.image}}" alt="{{f.image}}" height="50px" width="50px">
+              </td>
+              <td>
+                <button class="badge badge-pills badge-warning" (click)="setValue(f)" data-toggle="modal" data-target="#myModal">Update</button>
+                <button class="badge badge-pills badge-danger" (click)="delete(f)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+</div>

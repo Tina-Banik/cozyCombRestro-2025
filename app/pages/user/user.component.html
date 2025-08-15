@@ -1,0 +1,67 @@
+<div class="container-fluid">
+    <header class="jumbotron text-center">
+        |User Dashboard|
+    </header>
+    <div class="container-fluid">
+        <section class="float-right">
+            <button (click)="showCart()">Show Cart</button>
+            <div *ngIf="isCartVisible">
+                <!-- <pre>{{ cartItems | json }}</pre> -->
+                <ul>
+                    <li *ngFor="let item of cartItems">
+                        Food Name: {{item.food}} - Quantity: {{item.quantity}} - Price: {{item.price}}
+                    </li>
+                </ul>
+                <button class="btn btn-sm btn-primary" (click)="generateBill()">Order</button>
+            </div>
+            <span class="badge badge-pills badge-danger mx-2">{{userInfo.activeUser}}</span>
+            <span class="badge badge-pills badge-danger">
+                <button class="btn btn-sm btn-warning" (click)="logout()">Logout</button> 
+            </span>
+        </section>
+        <h6>Operations...</h6>
+        <p>Here Users can add the items into the cart, ordered the items</p>
+        <table class="table table-hover">
+            <thead>
+               <tr>
+                <th>Food Name</th>
+                <th>Food Description</th>
+                <th>Food Price</th>
+                <th>Food Stock</th>
+                <th>Food Image</th>
+                <th>Action</th>
+            </tr> 
+            </thead>
+            <tbody>
+                <tr *ngFor="let f of foodItems">
+                    <td>{{f.food}}</td>
+                    <td>{{f.description}}</td>
+                    <td>{{f.price | currency:'INR'}}</td>
+                    <td>{{f.stock}}</td>
+                    <td>
+                        <img src="{{f.image}}" height="40px" width="40px" alt="{{f.image}}"/>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-warning" (click)="addToCart(f)" >Add To Cart</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- <div>
+    <h2>Your Cart</h2>
+    <ul>
+      <li *ngFor="let item of cart.items">{{ item.name }} - {{ item.price }}</li>
+    </ul>
+    <button (click)="generateBill()">Generate Bill</button>
+    <div *ngIf="bill">
+      <h2>Bill Details</h2>
+      <p>Total: {{ bill.total }}</p> -->
+      <!-- Display more bill details as needed -->
+    <!-- </div>
+  </div> -->
+
+  <!-- getCart(orderId: string): Observable<any> { return this.http.get(`${this.baseUrl}/cart/${orderId}`); } -->
+  

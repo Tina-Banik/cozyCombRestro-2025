@@ -1,0 +1,63 @@
+<div class="container login-container">
+    <div class="row">
+        <div class="col-md-6 login-form-1">
+            <h3>Register Form</h3>
+            <form [formGroup]="registerForm">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Your Name *" formControlName="username" [class.is-invalid]="(registerForm.get('username').invalid && registerForm.get('username').touched) || registerForm.get('username').submitted" [class.is-valid]="registerForm.get('username').valid"/>
+                    <!-- display the errors of the username -->
+                     <section *ngIf="(registerForm.get('username').touched && registerForm.get('username').invalid) || registerForm.get('username').dirty">
+                        <small class="text-danger" *ngIf="registerForm.get('username').hasError('required')"><strong>Username is required</strong></small>
+                        <small class="text-danger" *ngIf="registerForm.get('username').hasError('pattern')"><strong>Username is 3 to 30 characters long </strong></small>
+                     </section>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Your Email (e.g. abc@gmail.com)" formControlName="email" [class.is-invalid]="(registerForm.get('email').touched && registerForm.get('email').invalid) || registerForm.get('email').submitted" [class.is-valid]="registerForm.get('email').valid"/>
+                    <!-- display the errors -->
+                     <section *ngIf="(registerForm.get('email').touched && registerForm.get('email').invalid) || registerForm.get('email').dirty">
+                        <small class="text-danger" *ngIf="registerForm.get('email').hasError('required')"><strong>Email is required</strong></small>
+                        <small class="text-danger" *ngIf="registerForm.get('email').hasError('pattern')"><strong>Email must be 3 to 30 characters long</strong></small>
+                     </section>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Your Password *" formControlName="passwords" [class.is-invalid]="(registerForm.get('passwords').invalid && registerForm.get('passwords').touched) || registerForm.get('passwords').submitted" [class.is-valid]="registerForm.get('passwords').valid" />
+                    <!-- display the errors -->
+                     <section *ngIf="(registerForm.get('passwords').invalid && registerForm.get('passwords').touched) || registerForm.get('passwords').dirty">
+                        <small class="text-danger" *ngIf="registerForm.get('passwords').hasError('required')"><strong>Passwords is required</strong></small>
+                        <small class="text-danger" *ngIf="registerForm.get('passwords').hasError('pattern')">Password must be in<strong> 6 characters and special characters are allowed..</strong></small>
+                     </section>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" formControlName="roles">
+                        <option></option>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <!-- <div class="form-group">
+                    <input type="submit" class="btnSubmit" value="Register" (click)="onSubmit()" [disabled]="registerForm.invalid"/>
+                </div> -->
+                <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="registerForm.invalid">Register</button>
+            </form>
+        </div>
+        <div class="col-md-6 login-form-2">
+            <h3>Login Form</h3>
+            <!-- <div class="form-group"> 
+                <button type="button" class="btn btn-secondary mx-2" (click)="setAdminLogin(false)">User Login</button> 
+                <button type="button" class="btn btn-secondary" (click)="setAdminLogin(true)">Admin Login</button> 
+            </div> -->
+            <form [formGroup]="loginForm" >
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Your Email *" formControlName="email"/>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Your Password *" formControlName="passwords"/>
+                </div>
+                <!-- <div class="form-group">
+                    <input type="submit" class="btnSubmit" value="Login" [disabled]="loginForm.invalid"/>
+                </div> -->
+                <button type="submit" class="btn btn-warning" (click)="onLogin()" [disabled]="loginForm.invalid">Login</button>
+            </form>
+        </div>
+    </div>
+</div>

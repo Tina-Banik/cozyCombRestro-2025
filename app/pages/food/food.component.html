@@ -1,0 +1,22 @@
+<div class="container-fluid">
+  <div class="alert alert-success text-center">
+    <h5>All Food Items</h5>
+  </div>
+  <section>
+    <h5>{{search_food}}</h5>
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Enter search food items.." [(ngModel)]="search_food"/>
+  </div>
+</section>
+<div class="card-columns">
+    <div *ngFor="let f of foodLists | filter: search_food | paginate: { itemsPerPage: pageSize, currentPage: p, totalItems:totalSize }" class="card mx-2 my-2" style="width:400px">
+        <img class="card-img-top" src="{{f.image}}" alt="{{f.image}}" width="100px" height="300px">
+        <div class="card-body text-center">
+          <h4 class="card-title">Food Name: {{f.food}}</h4>
+          <p class="card-text"> Food Description: {{f.description | slice:0:60}}</p>
+          <button class="btn btn-sm btn-primary">Food Price: {{f.price | currency:'INR'}}</button>
+        </div>
+      </div>
+</div>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
